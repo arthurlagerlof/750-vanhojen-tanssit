@@ -1,7 +1,9 @@
+import { ProductGrid } from "@/components/shop/ProductGrid";
+
 export default function Home() {
   return (
     <main className="min-h-screen bg-[#f4efe5] text-[#241c18]">
-      <section className="flex min-h-screen flex-col items-center justify-center px-6 text-center">
+      <section className="flex min-h-[70vh] flex-col items-center justify-center px-6 text-center">
         <p className="mb-4 text-sm uppercase tracking-[0.35em] text-[#76584a]">
           Katedralskolan i Åbo
         </p>
@@ -12,16 +14,25 @@ export default function Home() {
 
         <p className="mt-8 max-w-2xl text-lg leading-8 text-[#65564f]">
           Tervetuloa Katedralskolan kakkutukkuun.
-          Tutustu koulumme historiaan ja tilaa herkkuja tukemaan
-          yhteistä tekemistämme.
         </p>
+      </section>
 
-        <button
-          type="button"
-          className="mt-10 rounded-full bg-[#3b2520] px-8 py-4 text-sm font-medium tracking-wide text-[#f9f4ea] transition hover:-translate-y-0.5 hover:bg-[#51342c]"
-        >
-          Tutustu valikoimaan
-        </button>
+      <section className="mx-auto max-w-7xl px-6 py-24">
+        <div className="mb-12 text-center">
+          <p className="text-sm uppercase tracking-[0.3em] text-[#76584a]">
+            Kakkutukku
+          </p>
+
+          <h2 className="mt-3 font-serif text-4xl sm:text-5xl">
+            Valitse suosikkisi
+          </h2>
+
+          <p className="mx-auto mt-4 max-w-xl text-[#65564f]">
+            Kaikki rasiat 8,00 €.
+          </p>
+        </div>
+
+        <ProductGrid />
       </section>
     </main>
   );
