@@ -1,20 +1,115 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 import { ArrowDown, Heart } from "lucide-react";
 
 export function Hero() {
+  const heroRef = useRef<HTMLElement>(null);
+  const [imageScale, setImageScale] = useState(1);
+  const hasSnappedRef = useRef(false);
+  const lastScrollYRef = useRef(0);
+  const tickingRef = useRef(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (tickingRef.current) return;
+
+      tickingRef.current = true;
+
+      window.requestAnimationFrame(() => {
+        const hero = heroRef.current;
+
+        if (!hero) {
+          tickingRef.current = false;
+          return;
+        }
+
+        const scrollY = window.scrollY;
+        const heroHeight = hero.offsetHeight;
+
+        // How far we've travelled through the hero.
+        const progress = Math.min(
+          Math.max(scrollY / (heroHeight * 0.65), 0),
+          1,
+        );
+
+        // Subtle cinematic zoom.
+        const scale = 1 + progress * 0.1;
+
+        setImageScale(scale);
+
+        const scrollingDown = scrollY > lastScrollYRef.current;
+
+        // Once the user has moved far enough into the hero,
+        // smoothly bring the history section into view.
+        const snapPoint = heroHeight * 0.20;
+
+        if (
+          scrollingDown &&
+          scrollY >= snapPoint &&
+          !hasSnappedRef.current
+        ) {
+          hasSnappedRef.current = true;
+
+          const history = document.getElementById("historia");
+
+          if (history) {
+            history.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
+        }
+
+        // Allow snapping again if the user returns to the hero.
+        if (scrollY < heroHeight * 0.15) {
+          hasSnappedRef.current = false;
+        }
+
+        lastScrollYRef.current = scrollY;
+        tickingRef.current = false;
+      });
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    handleScroll();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <section className="relative flex min-h-screen flex-col overflow-hidden bg-[#071b35] text-[#f6f1e7]">
-      {/* Decorative architectural lines */}
-      <div className="pointer-events-none absolute inset-0 opacity-20">
-        <div className="absolute left-1/2 top-0 h-full w-px bg-[#d6b66a]" />
-        <div className="absolute left-[20%] top-0 h-full w-px bg-[#d6b66a]" />
-        <div className="absolute right-[20%] top-0 h-full w-px bg-[#d6b66a]" />
-      </div>
+    <section
+      ref={heroRef}
+      className="relative flex min-h-screen flex-col overflow-hidden bg-[#071b35] text-[#f6f1e7]"
+    >
+      {/* Hero image */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 origin-center bg-cover bg-center md:bg-[center_35%]"
+        style={{
+          backgroundImage:
+            "url('/history/2026_dance_lift_dirty_dancing.png')",
+          transform: `scale(${imageScale})`,
+          willChange: "transform",
+        }}
+      />
 
-      {/* Faint medieval-inspired pattern */}
-      <div className="pointer-events-none absolute inset-0 opacity-[0.04]">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,#d6b66a_1px,transparent_1px),radial-gradient(circle_at_80%_70%,#d6b66a_1px,transparent_1px)] bg-[size:48px_48px]" />
-      </div>
+      {/* Dark blue overlay */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-[#071b35]/45"
+      />
 
+      {/* Bottom gradient */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-gradient-to-b from-[#071b35]/20 via-transparent to-[#071b35]/75"
+      />
+
+      {/* Content */}
       <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 py-24 text-center">
         <p className="mb-8 text-xs uppercase tracking-[0.45em] text-[#d6b66a]">
           Katedralskolan i Åbo
@@ -27,7 +122,7 @@ export function Hero() {
         </h1>
 
         <p className="mt-10 max-w-xl text-base leading-7 text-[#c7d0da] sm:text-lg">
-          Turun sydämessä, historian keskellä.
+          Suomen historian keskellä.
           <br />
           Tutustu Katedralskolanin tarinaan ja tue
           koulumme 750v vanhojen tansseja.
@@ -52,6 +147,7 @@ export function Hero() {
         </div>
       </div>
 
+      {/* Location */}
       <div className="relative z-10 flex items-center justify-center pb-8">
         <p className="text-[10px] uppercase tracking-[0.4em] text-[#8f9dac]">
           Turku · Finland

@@ -41,7 +41,7 @@ export default async function ThankYouPage({
         )}
 
         <p className="mx-auto mt-8 max-w-md text-base leading-7 text-[#c7d0da]">
-          Ennakkotilauksesi on vastaanotettu.
+          Ennakkotilauksesi on vastaanotettu. Jos haluat muokata tai perua tilauksesi, ole yhteydessä sähköpostitse osoitteeseen arthur.lagerlof@abo.fi tai puhelimitse numeroon 040 634 7109.
         </p>
 
         <div className="mt-8 rounded-2xl border border-[#d6b66a]/30 bg-[#0d294b]/50 p-6 text-left">
