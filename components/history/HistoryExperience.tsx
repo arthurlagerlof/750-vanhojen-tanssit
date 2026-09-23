@@ -100,7 +100,7 @@ export function HistoryExperience() {
               <>
                 <Image
                   src={selected.image!}
-                  alt={selected.imageAlt}
+                  alt={selected.imageAlt ?? selected.title}
                   fill
                   sizes="(max-width: 1024px) 100vw, 55vw"
                   className="object-cover"
