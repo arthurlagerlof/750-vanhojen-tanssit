@@ -8,7 +8,8 @@ export function HistoryExperience() {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const selected = historyEvents[selectedIndex];
-  const hasImage = Boolean(selected.image?.trim());
+  const selectedImage = selected.image;
+  const hasImage = Boolean(selectedImage?.trim());
 
   return (
     <section
