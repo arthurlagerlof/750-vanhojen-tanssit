@@ -120,8 +120,8 @@ export const historyEvents: HistoryEvent[] = [
   {
     year: "2026",
     title: "750 vuotta",
-    text: "Katedralskolan juhlii 750-vuotista historiaansa. Vuoden 2027 alussa järjestetään vanhojen tanssit.",
+    text: "Katedralskolan juhlii 750-vuotista historiaansa. Vuoden 2027 alussa järjestetään vanhojentanssit.",
     image: "/history/2026_dance_lift_dirty_dancing.png",
-    imageAlt: "Vanhojen Tanssien tanssipari nostossa",
+    imageAlt: "Vanhojentanssien tanssipari nostossa",
   },
 ];

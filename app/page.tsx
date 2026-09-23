@@ -27,7 +27,7 @@ export default function Home() {
 
             <p className="mx-auto mt-6 max-w-xl text-base leading-7 text-[#66574f]">
               Valitse suosikkisi ja tue samalla Katedralskolanin
-              750-vuotisjuhlaa ja Vanhojen Tansseja.
+              750-vuotisjuhlaa ja vanhojentansseja.
             </p>
 
             <div className="mx-auto mt-8 h-px w-16 bg-[#a58a55]" />

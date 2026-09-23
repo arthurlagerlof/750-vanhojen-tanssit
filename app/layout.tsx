@@ -23,13 +23,13 @@ export const metadata: Metadata = {
   },
 
   description:
-    "Tutustu Katedralskolan i Åbon 750-vuotiseen historiaan ja tue koulun Vanhojen Tanssien järjestämistä Kakkutukun kautta.",
+    "Tutustu Katedralskolan i Åbon 750-vuotiseen historiaan ja tue koulun vanhojentanssien järjestämistä Kakkutukun kautta.",
 
   keywords: [
     "Katedralskolan i Åbo",
     "Katedralskolan",
     "Katedralskolan 750 vuotta",
-    "Vanhojen Tanssit",
+    "vanhojentanssit",
     "Kakkutukku",
     "Turku",
     "Åbo",
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Katedralskolan i Åbo - 750 vuotta",
     description:
-      "Tutustu Katedralskolan i Åbon historiaan ja tue koulun Vanhojen Tanssien järjestämistä.",
+      "Tutustu Katedralskolan i Åbon historiaan ja tue koulun vanhojentanssien järjestämistä.",
     url: "https://wanhat.netlify.app",
     siteName: "Katedralskolan i Åbo - 750 vuotta",
     locale: "fi_FI",
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
         url: "/vanhojen_tanssit_katedralskolan.png",
         width: 1200,
         height: 630,
-        alt: "Katedralskolan Vanhojen Tanssit",
+        alt: "Katedralskolan vanhojentanssit",
       },
     ],
   },
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Katedralskolan i Åbo - 750 vuotta",
     description:
-      "Tutustu Katedralskolan i Åbon historiaan ja tue Vanhojen Tanssien järjestämistä.",
+      "Tutustu Katedralskolan i Åbon historiaan ja tue vanhojentanssien järjestämistä.",
     images: ["/vanhojen_tanssit_katedralskolan.png"],
   },
 

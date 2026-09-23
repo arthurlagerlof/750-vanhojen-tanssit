@@ -7,7 +7,7 @@ export const faqItems: FAQItem[] = [
   {
     question: "Mihin tilaukseni tuotto käytetään?",
     answer:
-      "Kakkutukun tuotolla tuetaan Katedralskolanin Vanhojen Tanssien järjestämistä.",
+      "Kakkutukun tuotolla tuetaan Katedralskolanin vanhojentanssien järjestämistä.",
   },
   {
     question: "Kuinka paljon yksi tuote maksaa?",

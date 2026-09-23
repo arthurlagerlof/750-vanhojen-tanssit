@@ -140,7 +140,7 @@ export function Hero() {
           Suomen historian keskellä.
           <br />
           Tutustu Katedralskolanin tarinaan ja tue
-          koulumme 750v vanhojen tansseja.
+          koulumme 750v vanhojentansseja.
         </p>
 
         <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row">
@@ -158,7 +158,7 @@ export function Hero() {
             onClick={handleCtaClick}
             className="inline-flex items-center justify-center gap-3 rounded-full bg-[#d6b66a] px-7 py-3 text-sm uppercase tracking-[0.15em] text-[#071b35] transition hover:bg-[#f6f1e7]"
           >
-            Tue 750v vanhojen tansseja
+            Tue 750v vanhojentansseja
             <Heart size={16} />
           </a>
         </div>
