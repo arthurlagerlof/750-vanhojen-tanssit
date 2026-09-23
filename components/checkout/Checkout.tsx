@@ -4,7 +4,21 @@ import { FormEvent, useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, Minus, Plus, Trash2 } from "lucide-react";
 import { products } from "@/data/products";
+import { deliveryZones } from "@/data/deliveryZones";
 import { useCart } from "@/components/shop/CartProvider";
+import dynamic from "next/dynamic";
+
+const DeliveryMap = dynamic(
+  () => import("./DeliveryMap").then((mod) => mod.DeliveryMap),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex h-[420px] items-center justify-center rounded-2xl border border-white/10 bg-[#0d294b] text-sm text-[#8290a0]">
+        Karttaa ladataan...
+      </div>
+    ),
+  },
+);
 
 export function Checkout() {
   const {
@@ -18,6 +32,11 @@ export function Checkout() {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+
+  const [zoneId, setZoneId] = useState("");
+  const [address, setAddress] = useState("");
+  const [postalCode, setPostalCode] = useState("");
+  const [city, setCity] = useState("");
 
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -39,17 +58,32 @@ export function Checkout() {
       .filter(Boolean);
   }, [items]);
 
-  const total = cartItems.reduce(
+  const productsTotal = cartItems.reduce(
     (sum, item) =>
       sum + item!.product.price * item!.quantity,
     0,
   );
+
+  const selectedZone = deliveryZones.find(
+    (zone) => zone.id === zoneId,
+  );
+
+  const deliveryFee = selectedZone
+    ? selectedZone.feeCents / 100
+    : 0;
+
+  const total = productsTotal + deliveryFee;
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     if (cartItems.length === 0) {
       setError("Ostoskori on tyhjä.");
+      return;
+    }
+
+    if (!zoneId) {
+      setError("Valitse toimitusalue.");
       return;
     }
 
@@ -69,6 +103,12 @@ export function Checkout() {
             email,
             message,
           },
+          delivery: {
+            zoneId,
+            address,
+            postalCode,
+            city,
+          },
           items: items.map((item) => ({
             productId: item.productId,
             quantity: item.quantity,
@@ -87,7 +127,7 @@ export function Checkout() {
       clearCart();
 
       window.location.href = `/tilaus/kiitos?order=${encodeURIComponent(
-        data.orderId,
+        data.orderNumber,
       )}`;
     } catch (error) {
       setError(
@@ -205,13 +245,32 @@ export function Checkout() {
                 ))}
               </div>
             )}
+
+            {cartItems.length > 0 && (
+              <div className="mt-10 rounded-2xl border border-[#d7c9b5] bg-[#faf7f0] p-6 sm:p-8">
+                <p className="text-xs uppercase tracking-[0.3em] text-[#a58a55]">
+                  Ennakkotilaus
+                </p>
+
+                <h2 className="font-display mt-3 text-3xl">
+                  Toimitus marraskuussa 2026
+                </h2>
+
+                <p className="mt-4 text-sm leading-7 text-[#66574f]">
+                  Kyseessä on ennakkotilaus. Tuotteet toimitetaan
+                  marraskuussa 2026. Saat sähköpostitse vahvistuksen
+                  tilauksestasi sekä myöhemmin tarkemmat tiedot
+                  maksamisesta ja toimituksesta.
+                </p>
+              </div>
+            )}
           </section>
 
           {cartItems.length > 0 && (
             <section>
               <div className="rounded-2xl bg-[#071b35] p-6 text-[#f6f1e7] sm:p-8">
                 <p className="text-xs uppercase tracking-[0.3em] text-[#d6b66a]">
-                  Yhteystiedot
+                  Tilaustiedot
                 </p>
 
                 <h2 className="font-display mt-3 text-4xl">
@@ -272,6 +331,103 @@ export function Checkout() {
                     />
                   </label>
 
+                  <div className="border-t border-white/10 pt-5">
+                    <p className="text-xs uppercase tracking-[0.25em] text-[#d6b66a]">
+                      Toimitusosoite
+                    </p>
+
+                    <div className="mt-4 space-y-4">
+                      <label className="block">
+                        <span className="mb-2 block text-sm text-[#c7d0da]">
+                          Katuosoite
+                        </span>
+
+                        <input
+                          required
+                          value={address}
+                          onChange={(event) =>
+                            setAddress(event.target.value)
+                          }
+                          className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-[#f6f1e7] outline-none transition placeholder:text-[#8290a0] focus:border-[#d6b66a]"
+                          placeholder="Katuosoite 1 A 2"
+                        />
+                      </label>
+
+                      <div className="grid gap-4 sm:grid-cols-2">
+                        <label className="block">
+                          <span className="mb-2 block text-sm text-[#c7d0da]">
+                            Postinumero
+                          </span>
+
+                          <input
+                            required
+                            value={postalCode}
+                            onChange={(event) =>
+                              setPostalCode(event.target.value)
+                            }
+                            className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-[#f6f1e7] outline-none transition placeholder:text-[#8290a0] focus:border-[#d6b66a]"
+                            placeholder="20100"
+                          />
+                        </label>
+
+                        <label className="block">
+                          <span className="mb-2 block text-sm text-[#c7d0da]">
+                            Kaupunki
+                          </span>
+
+                          <input
+                            required
+                            value={city}
+                            onChange={(event) =>
+                              setCity(event.target.value)
+                            }
+                            className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-[#f6f1e7] outline-none transition placeholder:text-[#8290a0] focus:border-[#d6b66a]"
+                            placeholder="Turku"
+                          />
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+				  <span className="mb-2 block text-sm text-[#c7d0da]">
+				    Toimitusalue
+				  </span>
+
+				  <p className="mb-4 text-sm leading-6 text-[#8290a0]">
+				    Valitse kartalta alue, jolle tilaus toimitetaan.
+				    Toimitusmaksu määräytyy valitun alueen mukaan.
+				  </p>
+
+				  <DeliveryMap
+				    value={zoneId}
+				    onChange={setZoneId}
+				  />
+
+				  {selectedZone && (
+				    <div className="mt-4 rounded-xl border border-[#d6b66a]/30 bg-[#d6b66a]/5 px-4 py-3">
+				      <div className="flex items-center justify-between gap-4">
+				        <div>
+				          <p className="text-xs uppercase tracking-[0.2em] text-[#d6b66a]">
+				            Toimitusalue
+				          </p>
+
+				          <p className="mt-1 text-sm">
+				            {selectedZone.name}
+				          </p>
+				        </div>
+
+				        <p className="font-display text-xl text-[#d6b66a]">
+				          {(selectedZone.feeCents / 100)
+				            .toFixed(2)
+				            .replace(".", ",")}{" "}
+				          €
+				        </p>
+				      </div>
+				    </div>
+				  )}
+				</div>
+
                   <label className="block">
                     <span className="mb-2 block text-sm text-[#c7d0da]">
                       Viesti{" "}
@@ -292,14 +448,43 @@ export function Checkout() {
                   </label>
 
                   <div className="border-t border-white/10 pt-5">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-[#c7d0da]">
-                        Yhteensä
-                      </span>
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-[#c7d0da]">
+                          Tuotteet
+                        </span>
 
-                      <span className="font-display text-3xl text-[#d6b66a]">
-                        {total.toFixed(2).replace(".", ",")} €
-                      </span>
+                        <span>
+                          {productsTotal
+                            .toFixed(2)
+                            .replace(".", ",")}{" "}
+                          €
+                        </span>
+                      </div>
+
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-[#c7d0da]">
+                          Toimitus
+                        </span>
+
+                        <span>
+                          {deliveryFee > 0
+                            ? `${deliveryFee
+                                .toFixed(2)
+                                .replace(".", ",")} €`
+                            : "—"}
+                        </span>
+                      </div>
+
+                      <div className="mt-3 flex items-center justify-between border-t border-white/10 pt-4">
+                        <span className="text-sm text-[#c7d0da]">
+                          Yhteensä
+                        </span>
+
+                        <span className="font-display text-3xl text-[#d6b66a]">
+                          {total.toFixed(2).replace(".", ",")} €
+                        </span>
+                      </div>
                     </div>
                   </div>
 
@@ -316,12 +501,14 @@ export function Checkout() {
                   >
                     {submitting
                       ? "Lähetetään..."
-                      : "Lähetä tilaus"}
+                      : "Lähetä ennakkotilaus"}
                   </button>
 
                   <p className="text-center text-xs leading-5 text-[#8290a0]">
-                    Tilauksesi tallennetaan ja saat pian
-                    sähköpostiisi vahvistuksen tilauksestasi.
+                    Kyseessä on ennakkotilaus. Tuotteet toimitetaan
+                    marraskuussa 2026. Saat sähköpostitse vahvistuksen
+                    tilauksestasi sekä myöhemmin tarkemmat tiedot
+                    maksamisesta ja toimituksesta.
                   </p>
                 </form>
               </div>
