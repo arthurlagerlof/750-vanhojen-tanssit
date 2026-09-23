@@ -1,39 +1,45 @@
+import { Hero } from "@/components/hero/Hero";
+import { HistoryExperience } from "@/components/history/HistoryExperience";
 import { ProductGrid } from "@/components/shop/ProductGrid";
+import { CartButton } from "@/components/shop/CartButton";
+import { FAQ } from "@/components/faq/FAQ";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[#f4efe5] text-[#241c18]">
-      <section className="flex min-h-[70vh] flex-col items-center justify-center px-6 text-center">
-        <p className="mb-4 text-sm uppercase tracking-[0.35em] text-[#76584a]">
-          Katedralskolan i Åbo
-        </p>
+    <main>
+      <Hero />
 
-        <h1 className="max-w-4xl font-serif text-6xl font-medium tracking-tight sm:text-7xl">
-          Historiaa, perinteitä ja hyvää tekemistä.
-        </h1>
+      <HistoryExperience />
 
-        <p className="mt-8 max-w-2xl text-lg leading-8 text-[#65564f]">
-          Tervetuloa Katedralskolan kakkutukkuun.
-        </p>
-      </section>
+      <section
+        id="shop"
+        className="bg-[#f3ede1] px-6 py-28 sm:py-36"
+      >
+        <div className="mx-auto max-w-7xl">
+          <div className="mx-auto mb-16 max-w-2xl text-center">
+            <p className="text-xs uppercase tracking-[0.35em] text-[#76584a]">
+              Kakkutukku
+            </p>
 
-      <section className="mx-auto max-w-7xl px-6 py-24">
-        <div className="mb-12 text-center">
-          <p className="text-sm uppercase tracking-[0.3em] text-[#76584a]">
-            Kakkutukku
-          </p>
+            <h2 className="font-display mt-4 text-6xl font-medium tracking-tight text-[#241c18] sm:text-7xl">
+              Pientä hyvää.
+            </h2>
 
-          <h2 className="mt-3 font-serif text-4xl sm:text-5xl">
-            Valitse suosikkisi
-          </h2>
+            <p className="mx-auto mt-6 max-w-xl text-base leading-7 text-[#66574f]">
+              Valitse suosikkisi ja tue samalla Katedralskolanin
+              750-vuotisjuhlaa ja Vanhojen Tansseja.
+            </p>
 
-          <p className="mx-auto mt-4 max-w-xl text-[#65564f]">
-            Kaikki rasiat 8,00 €.
-          </p>
+            <div className="mx-auto mt-8 h-px w-16 bg-[#a58a55]" />
+          </div>
+
+          <ProductGrid />
         </div>
-
-        <ProductGrid />
       </section>
+
+      <FAQ />
+
+      <CartButton />
     </main>
   );
 }
