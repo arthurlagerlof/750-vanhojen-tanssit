@@ -15,9 +15,56 @@ const sans = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Katedralskolan i Åbo – Kakkutukku",
+  metadataBase: new URL("https://vanhat.netlify.app"),
+
+  title: {
+    default: "Katedralskolan i Åbo – 750 vuotta",
+    template: "%s | Katedralskolan i Åbo",
+  },
+
   description:
-    "Katedralskolan i Åbon kakkutukku – historiaa, perinteitä ja herkkuja.",
+    "Tutustu Katedralskolan i Åbon 750-vuotiseen historiaan ja tue koulun Vanhojen Tanssien järjestämistä Kakkutukun kautta.",
+
+  keywords: [
+    "Katedralskolan i Åbo",
+    "Katedralskolan",
+    "Katedralskolan 750 vuotta",
+    "Vanhojen Tanssit",
+    "Kakkutukku",
+    "Turku",
+    "Åbo",
+  ],
+
+  openGraph: {
+    title: "Katedralskolan i Åbo - 750 vuotta",
+    description:
+      "Tutustu Katedralskolan i Åbon historiaan ja tue koulun Vanhojen Tanssien järjestämistä.",
+    url: "https://vanhat.netlify.app",
+    siteName: "Katedralskolan i Åbo - 750 vuotta",
+    locale: "fi_FI",
+    type: "website",
+    images: [
+      {
+        url: "/vanhojen_tanssit_katedralskolan.png",
+        width: 1200,
+        height: 630,
+        alt: "Katedralskolan Vanhojen Tanssit",
+      },
+    ],
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "Katedralskolan i Åbo - 750 vuotta",
+    description:
+      "Tutustu Katedralskolan i Åbon historiaan ja tue Vanhojen Tanssien järjestämistä.",
+    images: ["/vanhojen_tanssit_katedralskolan.png"],
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
