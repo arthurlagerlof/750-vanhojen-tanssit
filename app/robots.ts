@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = "https://vanhat.netlify.app";
+  const baseUrl = "https://wanhat.netlify.app";
 
   return {
     rules: {

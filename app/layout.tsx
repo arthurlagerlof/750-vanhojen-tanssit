@@ -15,7 +15,7 @@ const sans = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://vanhat.netlify.app"),
+  metadataBase: new URL("https://wanhat.netlify.app"),
 
   title: {
     default: "Katedralskolan i Åbo – 750 vuotta",
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     title: "Katedralskolan i Åbo - 750 vuotta",
     description:
       "Tutustu Katedralskolan i Åbon historiaan ja tue koulun Vanhojen Tanssien järjestämistä.",
-    url: "https://vanhat.netlify.app",
+    url: "https://wanhat.netlify.app",
     siteName: "Katedralskolan i Åbo - 750 vuotta",
     locale: "fi_FI",
     type: "website",
