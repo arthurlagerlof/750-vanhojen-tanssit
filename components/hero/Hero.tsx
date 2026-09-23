@@ -5,10 +5,23 @@ import { ArrowDown, Heart } from "lucide-react";
 
 export function Hero() {
   const heroRef = useRef<HTMLElement>(null);
+
   const [imageScale, setImageScale] = useState(1);
+
   const hasSnappedRef = useRef(false);
   const lastScrollYRef = useRef(0);
   const tickingRef = useRef(false);
+  const disableSnapRef = useRef(false);
+
+  const handleCtaClick = () => {
+    // The user intentionally clicked a navigation link.
+    // Don't let the automatic hero snap interfere with it.
+    disableSnapRef.current = true;
+
+    window.setTimeout(() => {
+      disableSnapRef.current = false;
+    }, 1200);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,18 +46,18 @@ export function Hero() {
           1,
         );
 
-        // Subtle cinematic zoom.
-        const scale = 1 + progress * 0.1;
+        // Strong cinematic zoom.
+        const scale = 1 + progress * 0.2;
 
         setImageScale(scale);
 
         const scrollingDown = scrollY > lastScrollYRef.current;
 
-        // Once the user has moved far enough into the hero,
-        // smoothly bring the history section into view.
-        const snapPoint = heroHeight * 0.20;
+        // Automatic snap point.
+        const snapPoint = heroHeight * 0.12;
 
         if (
+          !disableSnapRef.current &&
           scrollingDown &&
           scrollY >= snapPoint &&
           !hasSnappedRef.current
@@ -61,8 +74,8 @@ export function Hero() {
           }
         }
 
-        // Allow snapping again if the user returns to the hero.
-        if (scrollY < heroHeight * 0.15) {
+        // Allow snapping again after returning close to the top.
+        if (scrollY < heroHeight * 0.1) {
           hasSnappedRef.current = false;
         }
 
@@ -71,7 +84,9 @@ export function Hero() {
       });
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("scroll", handleScroll, {
+      passive: true,
+    });
 
     handleScroll();
 
@@ -131,6 +146,7 @@ export function Hero() {
         <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row">
           <a
             href="#historia"
+            onClick={handleCtaClick}
             className="inline-flex items-center justify-center gap-3 rounded-full border border-[#d6b66a] px-7 py-3 text-sm uppercase tracking-[0.18em] text-[#f6f1e7] transition hover:bg-[#d6b66a] hover:text-[#071b35]"
           >
             Tutustu historiaan
@@ -139,6 +155,7 @@ export function Hero() {
 
           <a
             href="#shop"
+            onClick={handleCtaClick}
             className="inline-flex items-center justify-center gap-3 rounded-full bg-[#d6b66a] px-7 py-3 text-sm uppercase tracking-[0.15em] text-[#071b35] transition hover:bg-[#f6f1e7]"
           >
             Tue 750v vanhojen tansseja
